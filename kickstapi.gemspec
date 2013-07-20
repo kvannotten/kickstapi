@@ -10,7 +10,7 @@ Gem::Specification.new do |spec|
   spec.email         = ["kristof@vannotten.be"]
   spec.description   = %q{Ruby gem that offers an API for kickstarter}
   spec.summary       = %q{This gem offers an API for Kickstarter}
-  spec.homepage      = ""
+  spec.homepage      = "https://github.com/kvannotten/kickstapi"
   spec.license       = "MIT"
 
   spec.files         = `git ls-files`.split($/)
