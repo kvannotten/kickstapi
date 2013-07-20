@@ -21,10 +21,18 @@ describe Kickstapi do
   context 'a project' do
     subject { @projects.first }
     
-    [:name, :url, :creator, :about, :pledged, :percentage_funded, :backers, :status].each do |method|
+    [ :id, :name, :url, :creator, 
+      :about, :pledged, :currency, 
+      :percentage_funded, :backers, 
+      :status].each do |method|
       it { should respond_to method }
-      its(method) { should_not be_empty }
+      its(method) { should_not be_nil }
     end
+    
+    its(:id) { should be_kind_of Fixnum }
+    its(:id) { should > 0 }
+    
+    its(:pledged) { should be_kind_of Float }
   end
   
   context 'failed project' do
