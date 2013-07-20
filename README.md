@@ -20,7 +20,26 @@ Or install it yourself as:
 
 ## Usage
 
-TODO: Write usage instructions here
+```ruby
+require 'kickstapi'
+
+# this gives you an array of Project objects containing 'Planetary Annihilation'
+projects = Kickstapi.search_projects "Planetary Annihilation"
+
+# lets take the first project
+project = projects.first
+
+# we can then perform the following methods on it
+project.name
+project.url
+project.about
+project.creator
+project.pledged
+project.percentage_funded
+project.backers
+project.status
+
+```
 
 ## Contributing
 
