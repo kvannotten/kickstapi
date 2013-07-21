@@ -7,7 +7,8 @@ describe Kickstapi do
   
   before :all do
     @projects = Kickstapi.search_projects "Planetary Annihilation" # succesful project
-    @failures = Kickstapi.search_projects "Quala" # failing project
+    puts @projects.first.to_hash
+    @failure = Kickstapi.get_project "Quala" # failing project
   end
 
   context 'projects' do
@@ -19,7 +20,9 @@ describe Kickstapi do
   end
   
   context 'a project' do
-    subject { @projects.first }
+    subject { @projects.first}
+    
+    its(:to_hash) { should be_kind_of Hash }
     
     [ :id, :name, :url, :creator, 
       :about, :pledged, :currency, 
@@ -27,16 +30,21 @@ describe Kickstapi do
       :status].each do |method|
       it { should respond_to method }
       its(method) { should_not be_nil }
+      its(:to_hash) { should have_key method }
     end
     
     its(:id) { should be_kind_of Fixnum }
     its(:id) { should > 0 }
     
     its(:pledged) { should be_kind_of Float }
+    
+    it "returns valid json" do
+      expect { JSON.parse @projects.first.to_json }.to_not raise_error JSON::ParserError
+    end
   end
   
   context 'failed project' do
-    subject { @failures.first }
+    subject { @failure }
     
     its(:status) { should eql "Failed" }
     [:pledged, :percentage_funded, :backers].each do |method|
