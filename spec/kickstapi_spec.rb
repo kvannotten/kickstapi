@@ -7,7 +7,6 @@ describe Kickstapi do
   
   before :all do
     @projects = Kickstapi.search_projects "Planetary Annihilation" # succesful project
-    puts @projects.first.to_hash
     @failure = Kickstapi.get_project "Quala" # failing project
   end
 
