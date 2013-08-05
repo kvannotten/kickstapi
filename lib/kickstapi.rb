@@ -9,8 +9,8 @@ module Kickstapi
     @agent ||= Mechanize.new
   end
   
-  def self.search_projects filter = ""
-    search_url = "http://www.kickstarter.com/projects/search?utf8=%E2%9C%93&term=#{URI::encode filter}"
+  def self.search_projects( filter = "", offset = 1)
+    search_url = "http://www.kickstarter.com/projects/search?page=#{offset}utf8=%E2%9C%93&term=#{URI::encode filter}"
 
     projects = []
     Kickstapi.get_agent.get(search_url) do |page|
@@ -20,7 +20,7 @@ module Kickstapi
         bb_card_link = bb_card.search("a").first
 
         p.name = bb_card_link.content
-        p.url = bb_card_link.attributes["href"].value
+        p.url = bb_card_link.attributes["href"].value.split('?').first
         p.id = p.url.scan(/\/(\d+)\//).flatten.first.to_i
         bb_card_author = bb_card.search("span").first
         p.creator =  bb_card_author.content.gsub(/\nby\n/, '').gsub(/\n/, '')
@@ -62,6 +62,7 @@ module Kickstapi
       p.id = p.id = p.url.scan(/\/(\d+)\//).flatten.first.to_i
       p.backers = page.search(%Q{//data[@itemprop='Project[backers_count]']}).first.attributes["data-value"].value.to_i
       p.pledged = page.search(%Q{//data[@itemprop='Project[pledged]']}).first.attributes["data-value"].value.to_f
+      p.goal = page.search(%Q{//div[@id='pledged']}).first.attributes['data-goal'].value
       p.currency = page.search(%Q{//data[@itemprop='Project[pledged]']}).first.attributes["data-currency"].value
       p.percentage_funded = page.search(%Q{//div[@id='pledged']}).first.attributes['data-percent-raised'].value.to_f * 100
       p.end_date = DateTime.parse page.search(%Q{//span[@id='project_duration_data']}).first.attributes['data-end_time'].value
