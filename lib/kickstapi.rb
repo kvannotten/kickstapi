@@ -9,8 +9,8 @@ module Kickstapi
     @agent ||= Mechanize.new
   end
   
-  def self.search_projects filter = ""
-    search_url = "http://www.kickstarter.com/projects/search?utf8=%E2%9C%93&term=#{URI::encode filter}"
+  def self.search_projects( filter = "", offset = 1)
+    search_url = "http://www.kickstarter.com/projects/search?page=#{offset}utf8=%E2%9C%93&term=#{URI::encode filter}"
 
     projects = []
     Kickstapi.get_agent.get(search_url) do |page|
