@@ -20,7 +20,7 @@ module Kickstapi
         bb_card_link = bb_card.search("a").first
 
         p.name = bb_card_link.content
-        p.url = bb_card_link.attributes["href"].value
+        p.url = bb_card_link.attributes["href"].value.split('?').first
         p.id = p.url.scan(/\/(\d+)\//).flatten.first.to_i
         bb_card_author = bb_card.search("span").first
         p.creator =  bb_card_author.content.gsub(/\nby\n/, '').gsub(/\n/, '')
