@@ -62,6 +62,7 @@ module Kickstapi
       p.id = p.id = p.url.scan(/\/(\d+)\//).flatten.first.to_i
       p.backers = page.search(%Q{//data[@itemprop='Project[backers_count]']}).first.attributes["data-value"].value.to_i
       p.pledged = page.search(%Q{//data[@itemprop='Project[pledged]']}).first.attributes["data-value"].value.to_f
+      p.goal = page.search(%Q{//div[@id='pledged']}).first.attributes['data-goal'].value
       p.currency = page.search(%Q{//data[@itemprop='Project[pledged]']}).first.attributes["data-currency"].value
       p.percentage_funded = page.search(%Q{//div[@id='pledged']}).first.attributes['data-percent-raised'].value.to_f * 100
       p.end_date = DateTime.parse page.search(%Q{//span[@id='project_duration_data']}).first.attributes['data-end_time'].value
