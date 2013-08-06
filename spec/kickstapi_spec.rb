@@ -8,6 +8,7 @@ describe Kickstapi do
   before :all do
     @projects = Kickstapi.search_projects "Planetary Annihilation" # succesful project
     @failure = Kickstapi.get_project "Quala" # failing project
+    @single_project = Kickstapi.get_project_by_url "http://www.kickstarter.com/projects/659943965/planetary-annihilation-a-next-generation-rts?ref=live"
   end
 
   context 'projects' do
@@ -39,6 +40,19 @@ describe Kickstapi do
     
     it "returns valid json" do
       expect { JSON.parse @projects.first.to_json }.to_not raise_error JSON::ParserError
+    end
+  end
+  
+  context 'project by URL' do
+    subject { @single_project }
+    
+    [ :id, :name, :url, :creator,
+      :pledged, :currency, 
+      :percentage_funded, :backers, 
+      :goal].each do |method|
+      it { should respond_to method }
+      its(method) { should_not be_nil }
+      its(:to_hash) { should have_key method }
     end
   end
   
