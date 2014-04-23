@@ -56,8 +56,8 @@ module Kickstapi
   def self.get_project_by_url url
     p = Project.new
     Kickstapi.get_agent.get(url) do |page|
-      p.name = page.search(%Q{//h2[@id='title']//a}).text
-      p.creator = page.search(%Q{//p[@id='subtitle']//span//a[@id='name']}).text
+      p.name = page.search(%Q{//h2[@class='mb1']//a}).text
+      p.creator = page.search(%Q{//span[@class='creator']//a}).text
       p.url = url
       p.id = p.id = p.url.scan(/\/(\d+)\//).flatten.first.to_i
       p.backers = page.search(%Q{//data[@itemprop='Project[backers_count]']}).first.attributes["data-value"].value.to_i
