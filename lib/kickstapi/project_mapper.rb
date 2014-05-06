@@ -29,6 +29,7 @@ module Kickstapi
       project.url = project_hash[:url]
 
       fill_project(project, project_hash)
+      project
     end
 
     def load(project)

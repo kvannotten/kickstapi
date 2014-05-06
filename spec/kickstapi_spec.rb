@@ -41,6 +41,20 @@ describe Kickstapi do
       temp_project.backers # fetch an item that is lazily loaded
       temp_project.load_state.should be_eql :loaded
     end
+
+    it "should be retrievable from it's URL" do
+      temp_project = Kickstapi.find_project_by_url(@failure.url)
+      temp_project.name.should be_eql @failure.name
+    end
+
+    it "should be comparable" do
+      temp_project = Kickstapi.find_project_by_url(@projects.first.url)
+      (temp_project == @projects.first).should be_true
+    end
+
+    it "should be different from another project" do
+      (@projects.first == @failure).should be_false
+    end
   end
   
 end
