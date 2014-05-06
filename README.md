@@ -2,7 +2,7 @@
 
 This gem scrapes Kickstarter to create an API that facilitates the creation of applications querying Kickstarter.
 
-Note that this library is not created not endorsed by Kickstarter
+Note that this library is not created nor endorsed by Kickstarter
 
 ## Installation
 
@@ -52,7 +52,7 @@ reward = project.rewards.first
 reward.price                    # returns the price of the reward
 reward.backers                  # returns the amount of backers on this award level
 reward.description              # returns the description of the award
-reward.deliver_date             # returns the date the reward will be delivered
+reward.delivery_date             # returns the date the reward will be delivered
 
 ```
 
