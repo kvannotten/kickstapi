@@ -24,14 +24,18 @@ Or install it yourself as:
 require 'kickstapi'
 
 # this gives you an array of Project objects containing 'Planetary Annihilation'
-projects = Kickstapi.search_projects "Planetary Annihilation"
+projects = Kickstapi.find_projects_with_filter "Planetary Annihilation"
 
 # lets take the first project
 project = projects.first
 
 # we can then perform the following methods on it
 project.name
+project.id
 project.url
+# The methods above are always available, the methods below
+# will be lazy loaded when requested (this requires an additional
+# HTML request)
 project.about
 project.creator
 project.pledged
