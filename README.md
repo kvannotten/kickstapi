@@ -54,6 +54,14 @@ reward.backers                  # returns the amount of backers on this award le
 reward.description              # returns the description of the award
 reward.deliver_date             # returns the date the reward will be delivered
 
+# you can also fetch projects by username
+projects = Kickstapi.find_projects_by_username "kristofv"
+# please note that when you do this, only the name and url fields
+# are filled out, in order to fill out all the other fields
+# you can force a request by fetching one of the lazy loaded
+# fields or explicitly calling:
+projects.first.load
+
 ```
 
 ## Contributing

@@ -42,6 +42,19 @@ module Kickstapi
       project
     end
 
+    def projects_by_username(username)
+      projects = []
+      project_hashes = @gateway.projects_by_username username
+      project_hashes.each do |project_hash|
+        project = Project.new(data_source: self)
+        
+        project.complete(project_hash)
+
+        projects << project
+      end
+      projects
+    end
+
     def load(project)
       fill_project(project, @gateway.project_by_url(project.url))
     end

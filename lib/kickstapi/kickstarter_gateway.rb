@@ -49,6 +49,26 @@ module Kickstapi
       project
     end
 
+    def projects_by_username(username)
+      projects = []
+      source_url = "https://www.kickstarter.com/profile/#{username}"
+
+      agent.get(source_url) do |page|
+        page.search("a.project_item").each do |item|
+          project = {}
+          
+          project[:name] = item.search("div.project_name").text.gsub(/\n/, '')
+          project[:id] = :not_loaded
+          project[:url] = "https://kickstarter.com#{item.attributes["href"].value}"
+          project[:creator] = :not_loaded
+
+          projects << project
+        end
+      end
+
+      p projects
+    end
+
     private 
 
     def agent

@@ -23,4 +23,10 @@ module Kickstapi
     mapper.project_by_url url
   end
 
+  def self.find_projects_by_username(username)
+    gw = Kickstapi::KickstarterGateway.new
+    mapper = Kickstapi::ProjectMapper.new(gw)
+
+    mapper.projects_by_username username
+  end
 end
