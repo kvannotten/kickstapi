@@ -44,6 +44,7 @@ module Kickstapi
         project[:percentage_funded] = page.search(%Q{//div[@id='pledged']}).first.attributes['data-percent-raised'].value.to_f * 100
         project[:end_date] = DateTime.parse page.search(%Q{//span[@id='project_duration_data']}).first.attributes['data-end_time'].value
         project[:hours_left] = page.search(%Q{//span[@id='project_duration_data']}).first.attributes['data-hours-remaining'].value.to_f
+        project[:rewards] = parse_rewards(page.search(%Q{//ul[@id='what-you-get']}).first)
       end
       project
     end
@@ -52,6 +53,21 @@ module Kickstapi
 
     def agent
       @agent ||= Mechanize.new
+    end
+
+    def parse_rewards(rewards)
+      rewards_list = []
+      rewards.search("li.NS-projects-reward").each do |reward|
+        rewards_hash = {}
+
+        rewards_hash[:price] = reward.search("h5.mb1 > span.money").text[1..-1].gsub(/[,.]/, '').to_f
+        rewards_hash[:backers] = reward.search("p.backers-limits > span.backers-wrap > span.num-backers").text.to_i
+        rewards_hash[:description] = reward.search("div.desc > p").text
+        rewards_hash[:delivery_date] = DateTime.parse reward.search("div.delivery-date > time").text
+
+        rewards_list << rewards_hash
+      end
+      rewards_list
     end
 
   end

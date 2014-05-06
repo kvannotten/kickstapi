@@ -47,6 +47,13 @@ project.goal                    # returns the fund goal
 project.end_date                # returns the date that the project (will) end(s)
 project.hours_left              # returns how many hours are still left on the project
 
+project.rewards                 # returns an array of rewards
+reward = project.rewards.first
+reward.price                    # returns the price of the reward
+reward.backers                  # returns the amount of backers on this award level
+reward.description              # returns the description of the award
+reward.deliver_date             # returns the date the reward will be delivered
+
 ```
 
 ## Contributing

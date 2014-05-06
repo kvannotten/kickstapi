@@ -8,7 +8,8 @@ module Kickstapi
     attr_accessor :id, :name, :url, :creator
     lazy_accessor :about,  :pledged, :goal, 
                   :currency, :percentage_funded, :backers, 
-                  :status, :end_date, :hours_left
+                  :status, :end_date, :hours_left,
+                  :rewards
                   
     def initialize(attributes = {})
       complete(attributes)
@@ -17,6 +18,13 @@ module Kickstapi
     def complete(attributes)
       attributes.each do |key, value|
         public_send("#{key}=", value)
+      end
+    end
+
+    def rewards=(rewards)
+      @rewards = []
+      rewards.each do |reward|
+        @rewards << Kickstapi::Reward.new(reward)  
       end
     end
 

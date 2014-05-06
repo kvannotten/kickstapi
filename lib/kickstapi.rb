@@ -3,6 +3,7 @@ require "kickstapi/project"
 require "kickstapi/kickstarter_gateway"
 require "kickstapi/project_mapper"
 require "kickstapi/ghostly"
+require "kickstapi/reward"
 
 require 'open-uri'
 require 'mechanize'
