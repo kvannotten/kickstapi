@@ -1,4 +1,4 @@
-# Kickstapi  [![Build Status](https://travis-ci.org/kvannotten/kickstapi.png?branch=master)](https://travis-ci.org/kvannotten/kickstapi)
+# Kickstapi  [![Build Status](https://travis-ci.org/kvannotten/kickstapi.png?branch=master)](https://travis-ci.org/kvannotten/kickstapi) [![Gem Version](https://badge.fury.io/rb/kickstapi.svg)](http://badge.fury.io/rb/kickstapi)
 
 This gem scrapes Kickstarter to create an API that facilitates the creation of applications querying Kickstarter.
 
