@@ -36,12 +36,16 @@ project.url
 # The methods above are always available, the methods below
 # will be lazy loaded when requested (this requires an additional
 # HTML request)
-project.about
-project.creator
-project.pledged
-project.percentage_funded
-project.backers
-project.status
+project.about                   # returns the about section
+project.creator                 # returns the name of the creator
+project.pledged                 # returns the total amount pledged
+project.percentage_funded       # returns the percentage of funds that have been achieved so far
+project.backers                 # returns the amount of backers
+project.status                  # returns if the project is cancelled or succesful or still running
+project.currency                # returns the currency type (USD, CAD, GBP, EUR, ...)
+project.goal                    # returns the fund goal
+project.end_date                # returns the date that the project (will) end(s)
+project.hours_left              # returns how many hours are still left on the project
 
 ```
 
