@@ -23,9 +23,7 @@ module Kickstapi
         projects_hashes.each do |project_hash|
           project = Project.new(data_source: self)
 
-          project.id = project_hash[:id]
-          project.url = project_hash[:url]
-          project.name = project_hash[:name]
+          project.complete(project_hash)
 
           projects << project
         end

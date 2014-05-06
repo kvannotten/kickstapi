@@ -30,14 +30,14 @@ projects = Kickstapi.find_projects_with_filter "Planetary Annihilation"
 project = projects.first
 
 # we can then perform the following methods on it
-project.name
-project.id
-project.url
+project.name                    # returns the name of the project
+project.id                      # returns the id of the project
+project.url                     # returns the url of the project
+project.creator                 # returns the name of the creator
 # The methods above are always available, the methods below
 # will be lazy loaded when requested (this requires an additional
 # HTML request)
 project.about                   # returns the about section
-project.creator                 # returns the name of the creator
 project.pledged                 # returns the total amount pledged
 project.percentage_funded       # returns the percentage of funds that have been achieved so far
 project.backers                 # returns the amount of backers

@@ -36,6 +36,15 @@ describe Kickstapi do
       temp_project.load_state.should be_eql :ghost
     end
 
+    it "should do an initial fetch of some fields, while in ghost state" do
+      temp_project = Kickstapi.find_projects_with_filter("Ewe Topia").first
+      temp_project.id
+      temp_project.creator
+      temp_project.url
+      temp_project.name
+      temp_project.load_state.should be_eql :ghost
+    end
+
     it "should lazily load all the arguments" do
       temp_project = Kickstapi.find_projects_with_filter("Ewe Topia").first
       temp_project.backers # fetch an item that is lazily loaded

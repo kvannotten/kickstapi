@@ -1,4 +1,5 @@
 require 'mechanize'
+require 'json'
 
 module Kickstapi
   class KickstarterGateway
@@ -10,7 +11,7 @@ module Kickstapi
       should_page = true
       
       agent.get(search_url) do |page|
-        page.search("div.project-card").each do |project|
+        page.search("div.project-card-wrap").each do |project|
           p = Hash.new(0)
           
           bb_card = project.search("h2.bbcard_name")
@@ -18,7 +19,8 @@ module Kickstapi
 
           p[:name] = bb_card_link.content
           p[:url] = "https://www.kickstarter.com#{bb_card_link.attributes["href"].value.split('?').first}"
-          p[:id] = p[:url].scan(/\/(\d+)\//).flatten.first.to_i
+          p[:id] = JSON.parse(project.attributes["data-project"])["id"].to_i 
+          p[:creator] = project.search(".bbcard_name span").text.gsub(/\n|by/, '')
 
           projects << p 
         end
@@ -34,7 +36,7 @@ module Kickstapi
         project[:name] = page.search(%Q{//h2[@class='mb1']//a}).text
         project[:creator] = page.search(%Q{//span[@class='creator']//a}).text
         project[:url] = url
-        project[:id] = url.scan(/\/(\d+)\//).flatten.first.to_i
+        project[:id] = page.search('div').select { |div| div[:class] =~ /^Project\d+/ }.map { |div| div[:class].to_s }.uniq.first.scan(/(\d+)/).flatten.first.to_i
         project[:backers] = page.search(%Q{//data[@itemprop='Project[backers_count]']}).first.attributes["data-value"].value.to_i
         project[:pledged] = page.search(%Q{//data[@itemprop='Project[pledged]']}).first.attributes["data-value"].value.to_f
         project[:goal] = page.search(%Q{//div[@id='pledged']}).first.attributes['data-goal'].value.to_f

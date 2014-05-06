@@ -5,8 +5,8 @@ module Kickstapi
   class Project
     include Ghostly
 
-    attr_accessor :id, :name, :url
-    lazy_accessor :creator, :about,  :pledged, :goal, 
+    attr_accessor :id, :name, :url, :creator
+    lazy_accessor :about,  :pledged, :goal, 
                   :currency, :percentage_funded, :backers, 
                   :status, :end_date, :hours_left
                   
