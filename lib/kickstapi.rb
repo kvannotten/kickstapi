@@ -10,16 +10,16 @@ require 'mechanize'
 module Kickstapi
   def self.find_projects_with_filter(filter)
     gw = Kickstapi::KickstarterGateway.new
-    mapper = Kickstapi::ProjectMapper.new(gateway: gw)
+    mapper = Kickstapi::ProjectMapper.new(gw)
 
-    mapper.projects_by_filter filter: filter
+    mapper.projects_by_filter filter
   end
 
   def self.find_project_by_url(url)
     gw = Kickstapi::KickstarterGateway.new
-    mapper = Kickstapi::ProjectMapper.new(gateway: gw)
+    mapper = Kickstapi::ProjectMapper.new(gw)
 
-    mapper.project_by_url(url: url)
+    mapper.project_by_url url
   end
 
 end

@@ -3,7 +3,7 @@ require 'mechanize'
 module Kickstapi
   class KickstarterGateway
 
-    def projects_with_name(filter:, offset: 1)
+    def projects_with_name(filter, offset = 1)
       search_url = "http://www.kickstarter.com/projects/search?page=#{offset}utf8=%E2%9C%93&term=#{URI::encode filter}"
 
       projects = []
@@ -28,7 +28,7 @@ module Kickstapi
       projects
     end
 
-    def project_by_url(url:)
+    def project_by_url(url)
       project = {}
       agent.get(url) do |page|
         project[:name] = page.search(%Q{//h2[@class='mb1']//a}).text

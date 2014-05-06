@@ -11,6 +11,10 @@ module Kickstapi
                   :status, :end_date
                   
     def initialize(attributes = {})
+      complete(attributes)
+    end
+
+    def complete(attributes)
       attributes.each do |key, value|
         public_send("#{key}=", value)
       end
