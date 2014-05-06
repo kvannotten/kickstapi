@@ -53,6 +53,19 @@ module Kickstapi
     def fill_project(project, project_hash = {})
       project.complete(project_hash)
       project.load_state = :loaded
+      if project.pledged < project.goal
+        if project.end_date < DateTime.now
+          project.status = :failed
+        else
+          project.status = :running_not_yet_achieved
+        end
+      else
+        if project.end_date < DateTime.now
+          project.status = :succesful
+        else
+          project.status = :running_already_achieved
+        end
+      end
     end
   end
 end

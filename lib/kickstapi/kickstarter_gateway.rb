@@ -11,17 +11,15 @@ module Kickstapi
       
       agent.get(search_url) do |page|
         page.search("div.project-card").each do |project|
+          p = Hash.new(0)
+          
           bb_card = project.search("h2.bbcard_name")
           bb_card_link = bb_card.search("a").first
 
-          name = bb_card_link.content
-          url = "https://www.kickstarter.com#{bb_card_link.attributes["href"].value.split('?').first}"
-          id = url.scan(/\/(\d+)\//).flatten.first.to_i
-          p = {
-            name: name,
-            url: url,
-            id: id,
-          }
+          p[:name] = bb_card_link.content
+          p[:url] = "https://www.kickstarter.com#{bb_card_link.attributes["href"].value.split('?').first}"
+          p[:id] = p[:url].scan(/\/(\d+)\//).flatten.first.to_i
+
           projects << p 
         end
         should_page = projects.count > 0
@@ -39,7 +37,7 @@ module Kickstapi
         project[:id] = url.scan(/\/(\d+)\//).flatten.first.to_i
         project[:backers] = page.search(%Q{//data[@itemprop='Project[backers_count]']}).first.attributes["data-value"].value.to_i
         project[:pledged] = page.search(%Q{//data[@itemprop='Project[pledged]']}).first.attributes["data-value"].value.to_f
-        project[:goal] = page.search(%Q{//div[@id='pledged']}).first.attributes['data-goal'].value
+        project[:goal] = page.search(%Q{//div[@id='pledged']}).first.attributes['data-goal'].value.to_f
         project[:currency] = page.search(%Q{//data[@itemprop='Project[pledged]']}).first.attributes["data-currency"].value
         project[:percentage_funded] = page.search(%Q{//div[@id='pledged']}).first.attributes['data-percent-raised'].value.to_f * 100
         project[:end_date] = DateTime.parse page.search(%Q{//span[@id='project_duration_data']}).first.attributes['data-end_time'].value

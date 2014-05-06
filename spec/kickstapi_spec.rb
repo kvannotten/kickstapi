@@ -55,6 +55,14 @@ describe Kickstapi do
     it "should be different from another project" do
       (@projects.first == @failure).should be_false
     end
+
+    it "should mark a successful project" do
+      @projects.first.status.should be_eql :succesful
+    end
+
+    it "should mark an unsuccessful project" do
+      @failure.status.should be_eql :failed
+    end
   end
   
 end
