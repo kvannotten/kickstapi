@@ -1,15 +1,33 @@
 require 'json'
+require 'kickstapi/ghostly'
 
 module Kickstapi
   class Project
-    attr_accessor :id, :name, :url, :creator, :about, 
-                  :pledged, :goal, :currency, :percentage_funded, :backers, 
+    include Ghostly
+
+    attr_accessor :id, :name, :url
+    lazy_accessor :creator, :about,  :pledged, :goal, 
+                  :currency, :percentage_funded, :backers, 
                   :status, :end_date
                   
+    def initialize(attributes = {})
+      attributes.each do |key, value|
+        public_send("#{key}=", value)
+      end
+    end
+
+    def to_s
+      inspect
+    end
+
+    def ==(other)
+      other.is_a?(Project) && other.id == id
+    end
+
     def to_hash
       hash = {}
       self.instance_variables.each do |var|
-        sym = var.to_s.gsub /@/, ''
+        sym = var.to_s.gsub(/@/, '')
         hash[sym.to_sym] = self.instance_variable_get var
       end
       hash
