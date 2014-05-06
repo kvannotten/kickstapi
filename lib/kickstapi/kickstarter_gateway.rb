@@ -7,7 +7,8 @@ module Kickstapi
       search_url = "http://www.kickstarter.com/projects/search?page=#{offset}utf8=%E2%9C%93&term=#{URI::encode filter}"
 
       projects = []
-
+      should_page = true
+      
       agent.get(search_url) do |page|
         page.search("div.project-card").each do |project|
           bb_card = project.search("h2.bbcard_name")
@@ -23,9 +24,10 @@ module Kickstapi
           }
           projects << p 
         end
+        should_page = projects.count > 0
       end
 
-      projects
+      [projects, should_page]
     end
 
     def project_by_url(url)
@@ -41,6 +43,7 @@ module Kickstapi
         project[:currency] = page.search(%Q{//data[@itemprop='Project[pledged]']}).first.attributes["data-currency"].value
         project[:percentage_funded] = page.search(%Q{//div[@id='pledged']}).first.attributes['data-percent-raised'].value.to_f * 100
         project[:end_date] = DateTime.parse page.search(%Q{//span[@id='project_duration_data']}).first.attributes['data-end_time'].value
+        project[:hours_left] = page.search(%Q{//span[@id='project_duration_data']}).first.attributes['data-hours-remaining'].value.to_f
       end
       project
     end

@@ -8,7 +8,7 @@ module Kickstapi
     attr_accessor :id, :name, :url
     lazy_accessor :creator, :about,  :pledged, :goal, 
                   :currency, :percentage_funded, :backers, 
-                  :status, :end_date
+                  :status, :end_date, :hours_left
                   
     def initialize(attributes = {})
       complete(attributes)

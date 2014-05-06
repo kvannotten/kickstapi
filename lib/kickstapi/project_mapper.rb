@@ -3,23 +3,35 @@ require 'kickstapi/project'
 module Kickstapi
   class ProjectMapper
     attr_reader :gateway
-    
+
     def initialize(gateway)
       @gateway = gateway
     end
 
-    def projects_by_filter(filter)
-      projects_hashes = @gateway.projects_with_name(filter)
+    def projects_by_filter(filter, max_results = :all)
+      page = 1
+      should_page = true
       projects = []
-      projects_hashes.each do |project_hash|
-        project = Project.new(data_source: self)
 
-        project.id = project_hash[:id]
-        project.url = project_hash[:url]
-        project.name = project_hash[:name]
+      loop do
+        break unless should_page
+        break unless max_results == :all || max_results.to_i >= projects.size
 
-        projects << project
+        projects_hashes, should_page = @gateway.projects_with_name(filter, page)
+        page += 1
+
+        projects_hashes.each do |project_hash|
+          project = Project.new(data_source: self)
+
+          project.id = project_hash[:id]
+          project.url = project_hash[:url]
+          project.name = project_hash[:name]
+
+          projects << project
+        end
+        
       end
+      projects = projects[0...max_results] unless max_results == :all
       projects
     end
 
