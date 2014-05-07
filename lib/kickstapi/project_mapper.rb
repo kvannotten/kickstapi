@@ -72,7 +72,7 @@ module Kickstapi
         end
       else
         if project.end_date < DateTime.now
-          project.status = :succesful
+          project.status = :successful
         else
           project.status = :running_already_achieved
         end
