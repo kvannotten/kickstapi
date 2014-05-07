@@ -14,13 +14,13 @@ module Kickstapi
         page.search("div.project-card-wrap").each do |project|
           p = Hash.new(0)
           
-          bb_card = project.search("h2.bbcard_name")
+          bb_card = project.search("h6.project-title")
           bb_card_link = bb_card.search("a").first
 
           p[:name] = bb_card_link.content
           p[:url] = "https://www.kickstarter.com#{bb_card_link.attributes["href"].value.split('?').first}"
           p[:id] = JSON.parse(project.attributes["data-project"])["id"].to_i 
-          p[:creator] = project.search(".bbcard_name span").text.gsub(/\n|by/, '')
+          p[:creator] = project.search("div.project-card-interior > p.mb1").text.gsub(/\n|by/, '')
 
           projects << p 
         end
