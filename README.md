@@ -1,8 +1,16 @@
 # Kickstapi  [![Build Status](https://travis-ci.org/kvannotten/kickstapi.png?branch=master)](https://travis-ci.org/kvannotten/kickstapi) [![Gem Version](https://badge.fury.io/rb/kickstapi.svg)](http://badge.fury.io/rb/kickstapi)
 
-This gem scrapes Kickstarter to create an API that facilitates the creation of applications querying Kickstarter.
+## General
+
+This gem scrapes Kickstarter to create an API that facilitates the creation of applications querying Kickstarter. It does this by parsing the HTML on the website itself. 
 
 Note that this library is not created nor endorsed by Kickstarter
+
+## Remarks
+
+Kickstarter offers an undocumented API, but recently added a disclaimer that it is against their ToS to use this API by third party applications. Regardless of this, I still want people to get access to Kickstart statistics in an easy way. So the only legal way to do this, is to parse the website itself, whom anyone is allowed visit. 
+
+This means that sometimes Kickstarter can change things, which might break functionality. I've written the project in such a way that it separates the scraping concerns from the actual objects and the mapping thereof. This means, that when a change occurs, it has no effect on the end-user methods that the gem offers, and is merely a backend change. So update often!
 
 ## Installation
 
