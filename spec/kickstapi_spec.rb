@@ -75,7 +75,7 @@ describe Kickstapi do
     end
 
     it "should mark a successful project" do
-      @projects.first.status.should be_eql :succesful
+      @projects.first.status.should be_eql :successful
     end
 
     it "should mark an unsuccessful project" do
