@@ -66,7 +66,7 @@ module Kickstapi
         end
       end
 
-      p projects
+      projects
     end
 
     private 

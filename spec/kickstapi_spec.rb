@@ -8,6 +8,7 @@ describe Kickstapi do
   before :all do
     @projects = Kickstapi.find_projects_with_filter "Planetary Annihilation" # succesful project
     @failure = Kickstapi.find_projects_with_filter("Quala").first # failing project
+    @project_by_name = Kickstapi.find_projects_by_username("kristofv").first
   end
 
   context 'projects' do
@@ -18,6 +19,14 @@ describe Kickstapi do
     it { should_not be_empty }
   end
   
+  context 'a username project' do
+    subject { @project_by_name }
+
+    its(:creator) { should be_eql :not_loaded } # the creator field cannot be fetched from this page
+
+    its(:name) { should_not be_eql :not_loaded } # the name object should still be fetched
+  end
+
   context 'a project' do
     subject { @projects.first}
     
@@ -28,7 +37,7 @@ describe Kickstapi do
     its(:pledged) { should be_kind_of Float }
     
     it "returns valid json" do
-      expect { JSON.parse @projects.first.to_json }.not_to raise_error 
+      expect { @projects.first.load; JSON.parse @projects.first.to_json }.not_to raise_error 
     end
 
     it "should be in ghost state when first fetched" do

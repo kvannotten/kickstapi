@@ -40,6 +40,7 @@ module Kickstapi
       hash = {}
       self.instance_variables.each do |var|
         sym = var.to_s.gsub(/@/, '')
+        next if ['load_state', 'data_source'].include? sym
         hash[sym.to_sym] = self.instance_variable_get var
       end
       hash
