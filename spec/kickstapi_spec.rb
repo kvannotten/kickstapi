@@ -27,6 +27,22 @@ describe Kickstapi do
     its(:name) { should_not be_eql :not_loaded } # the name object should still be fetched
   end
 
+  context 'Planetary Annihilation data' do
+    subject { @projects.first } # This is the planetary annihilation project
+    
+    its(:creator) { should be_eql 'Uber Entertainment Inc'}
+    its(:name) { should be_eql 'Planetary Annihilation - A Next Generation RTS' }
+    its(:id) { should be_eql 1957695328 }
+    its(:url) { should be_eql 'https://www.kickstarter.com/projects/659943965/planetary-annihilation-a-next-generation-rts'}
+    its(:pledged) { should be_eql 2229344.0 }
+    its(:percentage_funded) {  should be_eql 247.7049288888889 }
+    its(:backers) { should be_eql 44162 }
+    its(:status) { should be_eql :successful }
+    its(:currency) { should be_eql 'USD' }
+    its(:goal) { should be_eql 900000.0 }
+    its(:hours_left) { should be_eql 0.0 }
+  end
+
   context 'a project' do
     subject { @projects.first}
     
