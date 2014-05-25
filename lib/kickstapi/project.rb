@@ -28,10 +28,6 @@ module Kickstapi
       end
     end
 
-    def to_s
-      inspect
-    end
-
     def ==(other)
       other.is_a?(Project) && other.id == id
     end
