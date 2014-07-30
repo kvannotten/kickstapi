@@ -8,9 +8,15 @@ Note that this library is not created nor endorsed by Kickstarter
 
 ## Remarks
 
-Kickstarter offers an undocumented API, but recently added a disclaimer that it is against their ToS to use this API by third party applications. Regardless of this, I still want people to get access to Kickstart statistics in an easy way. So the only legal way to do this, is to parse the website itself, whom anyone is allowed visit. 
+Kickstarter offers an undocumented API, but recently added a disclaimer that it is against their ToS to use this API by third party applications. Regardless of this, I still want people to get access to Kickstarter statistics in an easy way. So the only legal way to do this, is to parse the website itself, whom anyone is allowed visit. 
 
 This means that sometimes Kickstarter can change things, which might break functionality. I've written the project in such a way that it separates the scraping concerns from the actual objects and the mapping thereof. This means, that when a change occurs, it has no effect on the end-user methods that the gem offers, and is merely a backend change. So update often!
+
+## Who uses this gem?
+
+This gem is being used as a backend for the wildly popular [Kickstarter Tracker Widget](https://play.google.com/store/apps/details?id=com.rovgo.android.kickstarterwidget&hl=en) for Android.
+
+(Send me a request if you want to be featured here too)
 
 ## Installation
 
@@ -79,3 +85,6 @@ projects.first.load
 3. Commit your changes (`git commit -am 'Add some feature'`)
 4. Push to the branch (`git push origin my-new-feature`)
 5. Create new Pull Request
+
+Make sure all the tests are passing before creating the pull request! 
+
