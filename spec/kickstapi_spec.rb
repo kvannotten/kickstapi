@@ -79,6 +79,7 @@ describe Kickstapi do
     it "should be retrievable from it's URL" do
       temp_project = Kickstapi.find_project_by_url(@failure.url)
       expect(temp_project.name).to eq(@failure.name)
+      expect(temp_project.creator).to eq(@failure.creator)
     end
 
     it "should be comparable" do

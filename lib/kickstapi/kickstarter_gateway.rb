@@ -11,7 +11,7 @@ module Kickstapi
       should_page = true
       
       agent.get(search_url) do |page|
-        page.search("div.project-card-wrap").each do |project|
+        page.search("div.project-card-tall").each do |project|
           p = Hash.new(0)
           
           bb_card = project.search("h6.project-title")
@@ -20,7 +20,7 @@ module Kickstapi
           p[:name] = bb_card_link.content
           p[:url] = "https://www.kickstarter.com#{bb_card_link.attributes["href"].value.split('?').first}"
           p[:id] = JSON.parse(project.attributes["data-project"])["id"].to_i 
-          p[:creator] = project.search("div.project-card-interior > p.mb1").text.gsub(/\n|by/, '')
+          p[:creator] = project.search("div.project-card-content > p.project-byline").text.gsub(/\n|by/, '')
 
           projects << p 
         end
@@ -33,8 +33,8 @@ module Kickstapi
     def project_by_url(url)
       project = {}
       agent.get(url) do |page|
-        project[:name] = page.search(%Q{//h2[@class='mb1']//a}).text
-        project[:creator] = page.search(%Q{//span[@class='creator']//a}).text
+        project[:name] = page.search(%Q{//div[contains(@class, 'NS_projects__header')]/h2[contains(@class,'mb1')]/a}).first.text
+        project[:creator] = page.search(%Q{//p[contains(@class, 'h5 mb0 mobile-hide')]/b/a}).first.text
         project[:url] = url
         project[:id] = page.search('div').select { |div| div[:class] =~ /^Project\d+/ }.map { |div| div[:class].to_s }.uniq.first.scan(/(\d+)/).flatten.first.to_i
         project[:backers] = page.search(%Q{//data[@itemprop='Project[backers_count]']}).first.attributes["data-value"].value.to_i
@@ -44,7 +44,7 @@ module Kickstapi
         project[:percentage_funded] = page.search(%Q{//div[@id='pledged']}).first.attributes['data-percent-raised'].value.to_f * 100
         project[:end_date] = DateTime.parse page.search(%Q{//span[@id='project_duration_data']}).first.attributes['data-end_time'].value
         project[:hours_left] = page.search(%Q{//span[@id='project_duration_data']}).first.attributes['data-hours-remaining'].value.to_f
-        project[:rewards] = parse_rewards(page.search(%Q{//ul[@id='what-you-get']}).first)
+        project[:rewards] = parse_rewards(page.search(%Q{//div[@class='NS_projects__rewards_list']}).first)
       end
       project
     end
