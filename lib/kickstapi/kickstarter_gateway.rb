@@ -44,7 +44,7 @@ module Kickstapi
         project[:percentage_funded] = page.search(%Q{//div[@id='pledged']}).first.attributes['data-percent-raised'].value.to_f * 100
         project[:end_date] = DateTime.parse page.search(%Q{//span[@id='project_duration_data']}).first.attributes['data-end_time'].value
         project[:hours_left] = page.search(%Q{//span[@id='project_duration_data']}).first.attributes['data-hours-remaining'].value.to_f
-        project[:rewards] = parse_rewards(page.search(%Q{//div[@class='NS_projects__rewards_list']}).first)
+        project[:rewards] = parse_rewards(page.search(%Q{//div[contains(@class,'NS_projects__rewards_list')]}).first)
       end
       project
     end
