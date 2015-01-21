@@ -80,10 +80,14 @@ module Kickstapi
       rewards.search("li.NS-projects-reward").each do |reward|
         rewards_hash = {}
 
-        rewards_hash[:price] = reward.search("h5.mb1 > span.money").text[1..-1].gsub(/[,.]/, '').to_f
-        rewards_hash[:backers] = reward.search("p.backers-limits > span.backers-wrap > span.num-backers").text.to_i
-        rewards_hash[:description] = reward.search("div.desc > p").text
-        rewards_hash[:delivery_date] = DateTime.parse reward.search("div.delivery-date > time").text
+        begin
+          rewards_hash[:price] = reward.search("h5.mb1 > span.money").text[1..-1].gsub(/[,.]/, '').to_f
+          rewards_hash[:backers] = reward.search("p.backers-limits > span.backers-wrap > span.num-backers").text.to_i
+          rewards_hash[:description] = reward.search("div.desc > p").text
+          rewards_hash[:delivery_date] = DateTime.parse(reward.search("div.delivery-date > time").first.attr('datetime'))
+        rescue 
+          # NOOP
+        end
 
         rewards_list << rewards_hash
       end
